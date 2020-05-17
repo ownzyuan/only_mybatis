@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.mapper.RoutesMapper">
+
+    <!--通过职业名查询分路  单表查询，routes表-->
+    <select id="getRouteBycName" resultType="String">
+        SELECT route FROM my_mybatis.routes WHERE c_name = #{cName};
+    </select>
+
+    <!--查询全部分路  单表查询，routes表-->
+    <select id="getAllRoutes" resultType="routes">
+        SELECT * FROM my_mybatis.routes
+    </select>
+
+    <!--添加分路  单表，routes表-->
+    <insert id="addRoutes" parameterType="routes">
+        INSERT INTO my_mybatis.routes(c_name, route)
+        VALUES (#{cName} , #{route})
+    </insert>
+
+    <!--修改分路  单表，routes表-->
+    <update id="updateRoutes" parameterType="routes">
+        UPDATE my_mybatis.routes
+        SET route=#{route} WHERE c_name = #{cName}
+    </update>
+
+    <!--通过职业名删除分路  单表，routes表-->
+    <delete id="deleteRoutesBycName" parameterType="String">
+        DELETE FROM my_mybatis.routes
+        WHERE c_name = #{cName}
+    </delete>
+
+</mapper>

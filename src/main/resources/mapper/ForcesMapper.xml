@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.mapper.ForcesMapper">
+
+    <!--查询全部势力  单表查询，forces表-->
+    <select id="queryAllForces" resultType="forces">
+        SELECT * FROM my_mybatis.forces
+    </select>
+
+    <!--通过f_id查询势力  单表查询，forces表-->
+    <select id="getForceByFid" resultType="forces">
+        SELECT * FROM my_mybatis.forces
+        WHERE f_id = #{fid}
+    </select>
+
+    <!--添加势力  单表，forces表-->
+    <insert id="addForce" parameterType="forces">
+        INSERT INTO my_mybatis.forces(f_id,f_name)
+        VALUES (#{fId},#{fName})
+    </insert>
+
+    <!--通过f_name查询势力  单表查询，forces表-->
+    <select id="getForcesByfName" parameterType="String" resultType="forces">
+        SELECT * FROM my_mybatis.forces
+        WHERE f_name = #{fName}
+    </select>
+
+    <!--修改势力名，通过f_id  单表，forces表-->
+    <update id="updateForces" parameterType="forces">
+        UPDATE my_mybatis.forces
+        SET f_name = #{fName} WHERE f_id = #{fId}
+    </update>
+
+    <!--通过f_id删除势力-->
+    <delete id="deleteByfId" parameterType="Integer">
+        DELETE FROM my_mybatis.forces
+        WHERE f_id = #{fId}
+    </delete>
+
+</mapper>

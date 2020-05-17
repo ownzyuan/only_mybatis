@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.mapper.HeroMapper">
+
+    <!--
+    resultMap "hero_hc_fc"
+    通过hero表中的force属性在forces表查询得到势力
+    通过hero表中的hero_class_id在hero_class表查询职业
+    -->
+    <resultMap id="hero_hc_fc" type="hero">
+        <result property="name" column="hname"/>
+        <result property="gender" column="hgender"/>
+        <result property="skills" column="hskills"/>
+
+        <association property="forces" javaType="String">
+            <result property="fName" column="fName"/>
+        </association>
+
+        <association property="heroClass" javaType="String">
+            <result property="nameCn" column="cnameCn"/>
+        </association>
+    </resultMap>
+
+    <!--
+    查询全部英雄数据    多表查询：hero、forces、hero_class
+        英雄名，性别，势力，技能，职业
+        其中势力通过 forces表查询得到，职业通过 hero_class表查询得到
+        resultMap使用"hero_hc_fc"
+    -->
+    <select id="queryAllHero" resultMap="hero_hc_fc">
+        SELECT h.name hname , h.gender hgender , f.f_name fName , h.skills hskills , c.name_cn cnameCn
+        FROM my_mybatis.hero h , my_mybatis.forces f , my_mybatis.hero_class c
+        WHERE h.force = f.f_id AND h.hero_class_id = c.hc_id
+    </select>
+
+    <!--
+    查询单个英雄数据    多表查询：hero、forces、hero_class
+        英雄名，性别，势力，技能，职业
+        其中势力通过 forces表查询得到，职业通过 hero_class表查询得到
+        resultMap使用"hero_hc_fc"
+    -->
+    <select id="getHeroByName" resultMap="hero_hc_fc">
+        SELECT h.name hname , h.gender hgender , f.f_name fName , h.skills hskills , c.name_cn cnameCn
+        FROM my_mybatis.hero h , my_mybatis.forces f , my_mybatis.hero_class c
+        WHERE h.name = #{name} AND h.force = f.f_id AND h.hero_class_id = c.hc_id
+    </select>
+
+    <!--
+    添加英雄
+        其中 hero()中的字段为了避免使用到sql关键字，所以添加 `` 以表示其为列
+    -->
+    <insert id="addHero" parameterType="hero">
+        INSERT INTO my_mybatis.hero(`name` ,`gender` ,`force` ,`skills` ,`hero_class_id`)
+        VALUES(#{name} , #{gender} , #{force} , #{skills} , #{heroClassId})
+    </insert>
+
+    <!--
+    修改英雄信息
+        其中为了避免使用到sql关键字,使用 `` 以表示其为列
+        因为gender是非空字段，所以不做if判断
+    -->
+    <update id="updateByName" parameterType="hero">
+        UPDATE my_mybatis.hero
+        <trim prefix="set" prefixOverrides=",">
+            `gender`=#{gender},
+            <if test="force != null">
+                `force`=#{force}
+            </if>
+            <if test="skills != null">
+                `skills`=#{skills}
+            </if>
+            <if test="heroClassId != null">
+                `hero_class_id`=#{heroClassId}
+            </if>
+        </trim>
+        WHERE `name` = #{name}
+    </update>
+
+    <!--
+    通过英雄名，删除英雄
+        其中为了避免使用到sql关键字,使用 `` 以表示其为列
+    -->
+    <delete id="deleteByName" parameterType="String">
+        DELETE FROM my_mybatis.hero
+        WHERE `name` = #{name}
+    </delete>
+
+    <select id="getHeroVague" resultMap="hero_hc_fc" parameterType="map" >
+        SELECT h.name hname , h.gender hgender , f.f_name fName , h.skills hskills , c.name_cn cnameCn
+        FROM my_mybatis.hero h , my_mybatis.forces f , my_mybatis.hero_class c
+        WHERE h.name LIKE CONCAT('%',#{name},'%') OR h.skills LIKE CONCAT('%',#{skills},'%')
+        AND h.force = f.f_id AND h.hero_class_id = c.hc_id
+    </select>
+
+</mapper>

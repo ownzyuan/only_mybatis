@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.mapper.HeroClassMapper">
+
+    <!--通过职业序号查询到对应的名称  单表查询，hero_class表-->
+    <select id="getNameById" resultType="heroClass" parameterType="Integer">
+        SELECT * FROM my_mybatis.hero_class
+        WHERE hc_id = #{hcId}
+    </select>
+
+    <!--查询全部职业  单表查询，hero_class表-->
+    <select id="getName" resultType="heroClass">
+        SELECT * FROM my_mybatis.hero_class
+    </select>
+
+    <!--通过hero_class表中的任意列（包括hc_id、name_us、name_cn）
+    查询对应信息  单表查询，hero_class表-->
+    <select id="getByAnyway" parameterType="map" resultType="heroClass">
+        SELECT * FROM my_mybatis.hero_class
+        <trim prefix="where">
+            <choose>
+                <when test="hcId != null">
+                    hc_id = #{hcId}
+                </when>
+                <when test="nameUs != null">
+                    name_us = #{nameUs}
+                </when>
+                <when test="nameCn != null">
+                    name_cn = #{nameCn}
+                </when>
+            </choose>
+        </trim>
+    </select>
+
+    <!--添加职业  单表，hero_class表-->
+    <insert id="addHeroClass" parameterType="heroClass">
+        INSERT INTO my_mybatis.hero_class(hc_id, name_us, name_cn)
+        VALUES(#{hcId} , #{nameUs} , #{nameCn})
+    </insert>
+
+    <!--修改职业
+       可以选择修改想要修改的字段，不会影响到其他列
+      单表，hero_class表-->
+    <update id="updateHeroClass" parameterType="heroClass">
+        UPDATE my_mybatis.hero_class
+        <trim prefix="set" prefixOverrides=",">
+            <if test="nameUs != null">
+                name_us = #{nameUs}
+            </if>
+            <if test="nameCn != null">
+                name_cn = #{nameCn}
+            </if>
+        </trim>
+        WHERE hc_id = #{hcId}
+    </update>
+
+    <!--通过hc_id删除职业  单表，hero_class表-->
+    <delete id="deleteByhcId" parameterType="Integer">
+        DELETE FROM my_mybatis.hero_class
+        WHERE hc_id = #{hcId}
+    </delete>
+
+</mapper>
