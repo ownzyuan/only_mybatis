@@ -10,8 +10,6 @@ springboot创建项目
 
 ### hero（英雄）
 
-![image-20200517153026446](D:\Program Files\Typora\image_user\image-20200517153026446.png)
-
 #### name（String）
 
 英雄名，**主键**
@@ -28,8 +26,6 @@ springboot创建项目
 
 ### forces（势力）
 
-![image-20200517153348268](D:\Program Files\Typora\image_user\image-20200517153348268.png)
-
 #### f_id（int）
 
 势力编号，**主键**，用于查询对应势力
@@ -38,8 +34,6 @@ springboot创建项目
 
 ### hero_class（职业）
 
-![image-20200517153506092](D:\Program Files\Typora\image_user\image-20200517153506092.png)
-
 #### hc_id（idnt）
 
 职业编号，**主键**，用于查询对应职业
@@ -47,8 +41,6 @@ springboot创建项目
 
 
 ### routes（分路）
-
-![image-20200517153557724](D:\Program Files\Typora\image_user\image-20200517153557724.png)
 
 #### c_name（String）
 

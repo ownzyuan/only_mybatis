@@ -138,13 +138,9 @@ public class HeroTest {
         }else System.out.println("删除失败");
     }
 
-    /*@Test
-    void getHeroVague(){
-        String name = "盖";
-        List<Hero> heros = heroMapper.getHeroVague(name);
-        heros.forEach(System.out::println);
-    }*/
-
+    /**
+     * 模糊查询英雄信息
+     */
     @Test
     void getHeroVague(){
         String name = "盖";

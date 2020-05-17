@@ -87,6 +87,12 @@
         WHERE `name` = #{name}
     </delete>
 
+    <!--
+    模糊查询英雄数据    多表查询：hero、forces、hero_class
+        英雄名，性别，势力，技能，职业
+        其中势力通过 forces表查询得到，职业通过 hero_class表查询得到
+        resultMap使用"hero_hc_fc"
+    -->
     <select id="getHeroVague" resultMap="hero_hc_fc" parameterType="map" >
         SELECT h.name hname , h.gender hgender , f.f_name fName , h.skills hskills , c.name_cn cnameCn
         FROM my_mybatis.hero h , my_mybatis.forces f , my_mybatis.hero_class c

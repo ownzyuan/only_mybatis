@@ -45,7 +45,11 @@ public interface HeroMapper {
      */
     int deleteByName(String name);
 
-    //List<Hero> getHeroVague(String name);
+    /**
+     * 模糊查询，map中可以存放name，skills
+     * @param map
+     * @return Hero
+     */
     List<Hero> getHeroVague(Map map);
 
 }
